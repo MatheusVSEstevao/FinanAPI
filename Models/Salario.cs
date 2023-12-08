@@ -13,6 +13,7 @@ namespace FinanAPI.Models
         public double ValorGuardado { get; set; }
         public double ValorEmergencial { get; set; }
         public CargoEnum Cargo { get; set; }
+        public double valor { get; set; } 
 
     }
     

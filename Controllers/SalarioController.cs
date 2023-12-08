@@ -29,7 +29,7 @@ namespace FinanAPI.Controllers
                 Salario s = salarios[0];
                 return Ok(s);
             }
-
+    
             [HttpGet("GetAll")]
             public IActionResult Get()
             {
