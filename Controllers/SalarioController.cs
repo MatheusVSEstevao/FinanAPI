@@ -49,6 +49,20 @@ namespace FinanAPI.Controllers
                 salarios.Add(novoSalario);
                 return Ok(salarios);
             }
+
+            [HttpGet("GetOrdenado")]
+            public IActionResult GetOrdem()
+            {
+                List<Salario> listaFinal = salarios.OrderBy(p => p.ValorLiquido).ToList();
+                return Ok(listaFinal);
+            }
+
+            [HttpGet("GetSomaLiquida")]
+            public IActionResult GetSomaValorLiquido()
+            {
+                return Ok(salarios.Sum(s => s.ValorLiquido));
+            }
+
             
         }
           
