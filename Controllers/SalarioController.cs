@@ -63,6 +63,12 @@ namespace FinanAPI.Controllers
                 return Ok(salarios.Sum(s => s.ValorLiquido));
             }
 
+            [HttpGet("GetByNomeAproximado/{Nome}")]
+            public IActionResult GetByNomeAproximado(string Nome)
+            {
+                List<Salario> listaBusca = salarios.FindAll(p=> p.Nome.Contains(Nome));
+                return Ok(listaBusca);
+            }
             
         }
           
