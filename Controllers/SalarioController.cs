@@ -15,7 +15,7 @@ namespace FinanAPI.Controllers
             private static List<Salario> salarios = new List<Salario>()
             {
 
-                new Salario() { Id = 1, Nome = "Matheus Estagiário", ValorLiquido=1500.00, GastosObrigatorios=600.00, GastosLazer=400.00, ValorFinal=500.00, ValorGuardado=400.00, ValorEmergencial=100.00 , Cargo=CargoEnum.estagiario},                
+                new Salario() { Id = 1, Nome = "Matheus Estagiário", ValorLiquido=1500.00, GastosObrigatorios=600.00, GastosLazer=400.00, ValorFinal=500.00, ValorGuardado=400.00, ValorEmergencial=100.00 , Cargo=CargoEnum.estagiario},
                 new Salario() { Id = 2, Nome = "Matheus Trainee", ValorLiquido=1846.50, GastosObrigatorios=600.00, GastosLazer=500.00, ValorFinal=746.50, ValorGuardado=600.00, ValorEmergencial=146.50, Cargo=CargoEnum.trainee},                
                 new Salario() { Id = 3, Nome = "Matheus Júnior", ValorLiquido=2500.00, GastosObrigatorios=600.00, GastosLazer=700.00, ValorFinal=1200.00, ValorGuardado=1000.00, ValorEmergencial=200.00, Cargo=CargoEnum.junior},
                 new Salario() { Id = 4, Nome = "Matheus Pleno", ValorLiquido=5000.00, GastosObrigatorios=600.00, GastosLazer=1500.00, ValorFinal=2900.00, ValorGuardado=2500.00, ValorEmergencial=400.00, Cargo=CargoEnum.pleno},
@@ -68,6 +68,21 @@ namespace FinanAPI.Controllers
             {
                 List<Salario> listaBusca = salarios.FindAll(p=> p.Nome.Contains(Nome));
                 return Ok(listaBusca);
+            }
+
+            [HttpPut]
+            public IActionResult UpdateSalario(Salario s)
+            {
+                Salario salarioAlterado = salarios.Find(sal => sal.Id == s.Id);
+                salarioAlterado.Nome = s.Nome;
+                salarioAlterado.ValorLiquido = s.ValorLiquido;
+                salarioAlterado.GastosObrigatorios = s.GastosObrigatorios;
+                salarioAlterado.GastosLazer = s.GastosLazer;
+                salarioAlterado.ValorFinal = s.ValorFinal;
+                salarioAlterado.ValorGuardado = s.ValorGuardado;
+                salarioAlterado.ValorEmergencial = s.ValorEmergencial;
+                salarioAlterado.Cargo = s.Cargo;
+                
             }
             
         }
