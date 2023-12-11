@@ -71,7 +71,7 @@ namespace FinanAPI.Controllers
             }
 
             [HttpPut]
-            public IActionResult UpdateSalario(Salario s)
+            public IActionResult UptadeSalarios(Salario s)
             {
                 Salario salarioAlterado = salarios.Find(sal => sal.Id == s.Id);
                 salarioAlterado.Nome = s.Nome;
@@ -82,8 +82,20 @@ namespace FinanAPI.Controllers
                 salarioAlterado.ValorGuardado = s.ValorGuardado;
                 salarioAlterado.ValorEmergencial = s.ValorEmergencial;
                 salarioAlterado.Cargo = s.Cargo;
-                
+
+                return Ok(salarios);
+
             }
+
+            [HttpDelete("{id}")]
+            public IActionResult Delete(int id)
+            {
+                salarios.RemoveAll(sal => sal.Id == id);
+
+                return Ok(salarios);
+            }
+
+
             
         }
           
