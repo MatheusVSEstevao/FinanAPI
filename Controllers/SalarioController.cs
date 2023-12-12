@@ -27,7 +27,7 @@ namespace FinanAPI.Controllers
             {
                 Salario s = await _context.TB_SALARIOS
                     .FirstOrDefaultAsync(sBusca => sBusca.Id == id);
-                
+
                 return Ok(s);
             }
             catch (System.Exception ex)
@@ -49,6 +49,7 @@ namespace FinanAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> Add(Salario novoSalario)
         {
@@ -57,7 +58,7 @@ namespace FinanAPI.Controllers
                 if (novoSalario.ValorLiquido == 0)
                 {
                     throw new Exception("Valor Líquido não pode ser 0");
-                } 
+                }
                 await _context.TB_SALARIOS.AddAsync(novoSalario);
                 await _context.SaveChangesAsync();
 
@@ -69,6 +70,42 @@ namespace FinanAPI.Controllers
             }
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update(Salario novoSalario)
+        {
+            try
+            {
+                if (novoSalario.ValorLiquido == 0)
+                {
+                    throw new Exception("Valor Líquido não pode ser 0");
+                }
+                _context.TB_SALARIOS.Update(novoSalario);
+                int linhasAfetadas = await _context.SaveChangesAsync();
+
+                return Ok(linhasAfetadas);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                Salario sRemover = await _context.TB_SALARIOS.FirstOrDefaultAsync(p => p.Id == id);
+
+                _context.TB_SALARIOS.Remove(sRemover);
+                int linhasAfetadas = await _context.SaveChangesAsync();
+                return Ok(linhasAfetadas);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }
