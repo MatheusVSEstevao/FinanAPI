@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Matheus\\FinanAPI\\FinanAPI.csproj": {}
+    "D:\\Users\\Matheus\\Desktop\\FinanAPI\\FinanAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Matheus\\FinanAPI\\FinanAPI.csproj": {
+    "D:\\Users\\Matheus\\Desktop\\FinanAPI\\FinanAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Matheus\\FinanAPI\\FinanAPI.csproj",
+        "projectUniqueName": "D:\\Users\\Matheus\\Desktop\\FinanAPI\\FinanAPI.csproj",
         "projectName": "FinanAPI",
-        "projectPath": "C:\\Users\\Matheus\\FinanAPI\\FinanAPI.csproj",
+        "projectPath": "D:\\Users\\Matheus\\Desktop\\FinanAPI\\FinanAPI.csproj",
         "packagesPath": "C:\\Users\\Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Matheus\\FinanAPI\\obj\\",
+        "outputPath": "D:\\Users\\Matheus\\Desktop\\FinanAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -48,6 +48,16 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.14, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

@@ -1,103 +1,74 @@
 using Microsoft.AspNetCore.Mvc;
+using FinanAPI.Data;
 using FinanAPI.Models;
 using FinanAPI.Models.Enuns;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanAPI.Controllers
 {
+    [ApiController]
+    [Route("Controller")]
+    public class SalarioController : ControllerBase
+    {
 
-        [ApiController]
-        [Route("[Controller]")]
+        private readonly DataContext _context;
 
-        public class SalarioController : ControllerBase
+        public SalarioController(DataContext context)
         {
-            private static List<Salario> salarios = new List<Salario>()
-            {
+            _context = context;
+        }
 
-                new Salario() { Id = 1, Nome = "Matheus Estagiário", ValorLiquido=1500.00, GastosObrigatorios=600.00, GastosLazer=400.00, ValorFinal=500.00, ValorGuardado=400.00, ValorEmergencial=100.00 , Cargo=CargoEnum.estagiario},
-                new Salario() { Id = 2, Nome = "Matheus Trainee", ValorLiquido=1846.50, GastosObrigatorios=600.00, GastosLazer=500.00, ValorFinal=746.50, ValorGuardado=600.00, ValorEmergencial=146.50, Cargo=CargoEnum.trainee},                
-                new Salario() { Id = 3, Nome = "Matheus Júnior", ValorLiquido=2500.00, GastosObrigatorios=600.00, GastosLazer=700.00, ValorFinal=1200.00, ValorGuardado=1000.00, ValorEmergencial=200.00, Cargo=CargoEnum.junior},
-                new Salario() { Id = 4, Nome = "Matheus Pleno", ValorLiquido=5000.00, GastosObrigatorios=600.00, GastosLazer=1500.00, ValorFinal=2900.00, ValorGuardado=2500.00, ValorEmergencial=400.00, Cargo=CargoEnum.pleno},
-                new Salario() { Id = 5, Nome = "Matheus Sênior", ValorLiquido=8000.00, GastosObrigatorios=600.00, GastosLazer=3000.00, ValorFinal=4400.00, ValorGuardado=3500.00, ValorEmergencial=900.00, Cargo=CargoEnum.Senior}
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetSingle(int id)
+        {
+            try
+            {
+                Salario s = await _context.TB_SALARIOS
+                    .FirstOrDefaultAsync(sBusca => sBusca.Id == id);
                 
-            };
-
-            [HttpGet("Get")]
-            public IActionResult GetFirst()
-            {
-                Salario s = salarios[0];
                 return Ok(s);
             }
-    
-            [HttpGet("GetAll")]
-            public IActionResult Get()
+            catch (System.Exception ex)
             {
-                return Ok(salarios);
+                return BadRequest(ex.Message);
             }
-
-            [HttpGet("{id}")]
-
-            public IActionResult GetSingle(int id)
-            {
-                return Ok(salarios.FirstOrDefault(sa => sa.Id == id));
-            }
-
-            [HttpPost]
-            public IActionResult AddSalario(Salario novoSalario)
-            {
-                salarios.Add(novoSalario);
-                return Ok(salarios);
-            }
-
-            [HttpGet("GetOrdenado")]
-            public IActionResult GetOrdem()
-            {
-                List<Salario> listaFinal = salarios.OrderBy(p => p.ValorLiquido).ToList();
-                return Ok(listaFinal);
-            }
-
-            [HttpGet("GetSomaLiquida")]
-            public IActionResult GetSomaValorLiquido()
-            {
-                return Ok(salarios.Sum(s => s.ValorLiquido));
-            }
-
-            [HttpGet("GetByNomeAproximado/{Nome}")]
-            public IActionResult GetByNomeAproximado(string Nome)
-            {
-                List<Salario> listaBusca = salarios.FindAll(p=> p.Nome.Contains(Nome));
-                return Ok(listaBusca);
-            }
-
-            [HttpPut]
-            public IActionResult UptadeSalarios(Salario s)
-            {
-                Salario salarioAlterado = salarios.Find(sal => sal.Id == s.Id);
-                salarioAlterado.Nome = s.Nome;
-                salarioAlterado.ValorLiquido = s.ValorLiquido;
-                salarioAlterado.GastosObrigatorios = s.GastosObrigatorios;
-                salarioAlterado.GastosLazer = s.GastosLazer;
-                salarioAlterado.ValorFinal = s.ValorFinal;
-                salarioAlterado.ValorGuardado = s.ValorGuardado;
-                salarioAlterado.ValorEmergencial = s.ValorEmergencial;
-                salarioAlterado.Cargo = s.Cargo;
-
-                return Ok(salarios);
-
-            }
-
-            [HttpDelete("{id}")]
-            public IActionResult Delete(int id)
-            {
-                salarios.RemoveAll(sal => sal.Id == id);
-
-                return Ok(salarios);
-            }
-
-
-            
         }
-          
 
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                List<Salario> lista = await _context.TB_SALARIOS.ToListAsync();
+                return Ok(lista);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(Salario novoSalario)
+        {
+            try
+            {
+                if (novoSalario.ValorLiquido == 0)
+                {
+                    throw new Exception("Valor Líquido não pode ser 0");
+                } 
+                await _context.TB_SALARIOS.AddAsync(novoSalario);
+                await _context.SaveChangesAsync();
+
+                return Ok(novoSalario.Id);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+    }
 }
